@@ -1154,3 +1154,852 @@ if (
     updateGalleryCount();
     updateActiveLightboxItems();
 })();
+
+
+/* =================================================
+   STEP 6.4 — GALLERY FILTER, LIGHTBOX
+   AND SCROLL REVEAL
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =============================================
+       1. REQUIRED ELEMENTS
+       ============================================= */
+
+    const galleryItems = Array.from(
+        document.querySelectorAll(".gallery-item")
+    );
+
+    const galleryLinks = Array.from(
+        document.querySelectorAll("[data-gallery-lightbox]")
+    );
+
+    const filterButtons = Array.from(
+        document.querySelectorAll(".gallery-filter-button")
+    );
+
+    const visibleCountElement = document.getElementById(
+        "galleryVisibleCount"
+    );
+
+    const lightbox = document.getElementById(
+        "galleryLightbox"
+    );
+
+    const lightboxImage = document.getElementById(
+        "galleryLightboxImage"
+    );
+
+    const lightboxTitle = document.getElementById(
+        "galleryLightboxTitle"
+    );
+
+    const lightboxDescription = document.getElementById(
+        "galleryLightboxDescription"
+    );
+
+    const lightboxCounter = document.getElementById(
+        "galleryLightboxCounter"
+    );
+
+    const lightboxLoader = document.getElementById(
+        "galleryLightboxLoader"
+    );
+
+    const previousButton = document.getElementById(
+        "galleryLightboxPrevious"
+    );
+
+    const nextButton = document.getElementById(
+        "galleryLightboxNext"
+    );
+
+    const closeButtons = Array.from(
+        document.querySelectorAll("[data-lightbox-close]")
+    );
+
+    let visibleGalleryLinks = [...galleryLinks];
+    let currentImageIndex = 0;
+    let lastFocusedElement = null;
+
+
+    /* =============================================
+       2. BANGLA NUMBER CONVERTER
+       ============================================= */
+
+    function convertToBanglaNumber(number) {
+
+        const banglaDigits = [
+            "০",
+            "১",
+            "২",
+            "৩",
+            "৪",
+            "৫",
+            "৬",
+            "৭",
+            "৮",
+            "৯"
+        ];
+
+        return String(number).replace(
+            /\d/g,
+            function (digit) {
+                return banglaDigits[Number(digit)];
+            }
+        );
+    }
+
+
+    /* =============================================
+       3. UPDATE VISIBLE IMAGE LIST
+       ============================================= */
+
+    function updateVisibleGalleryLinks() {
+
+        visibleGalleryLinks = galleryLinks.filter(
+            function (link) {
+
+                const galleryItem = link.closest(".gallery-item");
+
+                return galleryItem &&
+                    !galleryItem.classList.contains("is-hidden");
+            }
+        );
+    }
+
+
+    /* =============================================
+       4. UPDATE GALLERY COUNTER
+       ============================================= */
+
+    function updateGalleryCounter() {
+
+        updateVisibleGalleryLinks();
+
+        if (!visibleCountElement) {
+            return;
+        }
+
+        visibleCountElement.textContent =
+            convertToBanglaNumber(
+                visibleGalleryLinks.length
+            );
+    }
+
+
+    /* =============================================
+       5. GALLERY FILTER
+       ============================================= */
+
+    function filterGallery(selectedCategory) {
+
+        galleryItems.forEach(function (item) {
+
+            const itemCategory =
+                item.getAttribute("data-gallery-category");
+
+            const shouldShow =
+                selectedCategory === "all" ||
+                itemCategory === selectedCategory;
+
+            if (shouldShow) {
+
+                item.classList.remove("is-hidden");
+
+                window.requestAnimationFrame(function () {
+                    item.classList.remove("is-filtering");
+                });
+
+            } else {
+
+                item.classList.add("is-filtering");
+
+                window.setTimeout(function () {
+                    item.classList.add("is-hidden");
+                }, 250);
+            }
+        });
+
+        window.setTimeout(function () {
+            updateGalleryCounter();
+        }, 280);
+    }
+
+
+    /* =============================================
+       6. FILTER BUTTON CLICK
+       ============================================= */
+
+    filterButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const selectedCategory =
+                button.getAttribute("data-gallery-filter") || "all";
+
+            filterButtons.forEach(function (singleButton) {
+
+                singleButton.classList.remove("is-active");
+
+                singleButton.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+            });
+
+            button.classList.add("is-active");
+
+            button.setAttribute(
+                "aria-pressed",
+                "true"
+            );
+
+            filterGallery(selectedCategory);
+        });
+    });
+
+
+    /* =============================================
+       7. SHOW LIGHTBOX IMAGE
+       ============================================= */
+
+    function showLightboxImage(index) {
+
+        if (
+            !lightboxImage ||
+            visibleGalleryLinks.length === 0
+        ) {
+            return;
+        }
+
+        if (index < 0) {
+            index = visibleGalleryLinks.length - 1;
+        }
+
+        if (index >= visibleGalleryLinks.length) {
+            index = 0;
+        }
+
+        currentImageIndex = index;
+
+        const selectedLink =
+            visibleGalleryLinks[currentImageIndex];
+
+        const selectedImage =
+            selectedLink.querySelector("img");
+
+        const imageSource =
+            selectedLink.getAttribute("href");
+
+        const imageTitle =
+            selectedLink.getAttribute("data-gallery-title") ||
+            "ফটো গ্যালারি";
+
+        const imageDescription =
+            selectedLink.getAttribute(
+                "data-gallery-description"
+            ) || "";
+
+        const imageAlt =
+            selectedImage
+                ? selectedImage.getAttribute("alt")
+                : imageTitle;
+
+        if (lightboxLoader) {
+            lightboxLoader.classList.add("is-active");
+        }
+
+        lightboxImage.classList.remove("is-loaded");
+
+        lightboxImage.onload = function () {
+
+            lightboxImage.classList.add("is-loaded");
+
+            if (lightboxLoader) {
+                lightboxLoader.classList.remove("is-active");
+            }
+        };
+
+        lightboxImage.onerror = function () {
+
+            if (lightboxLoader) {
+                lightboxLoader.classList.remove("is-active");
+            }
+
+            lightboxImage.alt =
+                "ছবিটি লোড করা সম্ভব হয়নি";
+        };
+
+        lightboxImage.src = imageSource;
+        lightboxImage.alt = imageAlt;
+
+        if (lightboxTitle) {
+            lightboxTitle.textContent = imageTitle;
+        }
+
+        if (lightboxDescription) {
+            lightboxDescription.textContent =
+                imageDescription;
+        }
+
+        if (lightboxCounter) {
+
+            const currentNumber =
+                convertToBanglaNumber(
+                    currentImageIndex + 1
+                );
+
+            const totalNumber =
+                convertToBanglaNumber(
+                    visibleGalleryLinks.length
+                );
+
+            lightboxCounter.textContent =
+                currentNumber + " / " + totalNumber;
+        }
+    }
+
+
+    /* =============================================
+       8. OPEN LIGHTBOX
+       ============================================= */
+
+    function openLightbox(index) {
+
+        if (!lightbox) {
+            return;
+        }
+
+        lastFocusedElement = document.activeElement;
+
+        updateVisibleGalleryLinks();
+
+        showLightboxImage(index);
+
+        lightbox.classList.add("is-open");
+
+        lightbox.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.classList.add(
+            "gallery-lightbox-open"
+        );
+
+        window.setTimeout(function () {
+
+            const closeButton =
+                lightbox.querySelector(
+                    ".gallery-lightbox-close"
+                );
+
+            if (closeButton) {
+                closeButton.focus();
+            }
+
+        }, 100);
+    }
+
+
+    /* =============================================
+       9. CLOSE LIGHTBOX
+       ============================================= */
+
+    function closeLightbox() {
+
+        if (!lightbox) {
+            return;
+        }
+
+        lightbox.classList.remove("is-open");
+
+        lightbox.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.classList.remove(
+            "gallery-lightbox-open"
+        );
+
+        if (lightboxImage) {
+
+            lightboxImage.classList.remove("is-loaded");
+
+            window.setTimeout(function () {
+
+                if (
+                    !lightbox.classList.contains("is-open")
+                ) {
+                    lightboxImage.src = "";
+                }
+
+            }, 300);
+        }
+
+        if (
+            lastFocusedElement &&
+            typeof lastFocusedElement.focus === "function"
+        ) {
+            lastFocusedElement.focus();
+        }
+    }
+
+
+    /* =============================================
+       10. OPEN IMAGE FROM GALLERY
+       ============================================= */
+
+    galleryLinks.forEach(function (link) {
+
+        link.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            updateVisibleGalleryLinks();
+
+            const selectedIndex =
+                visibleGalleryLinks.indexOf(link);
+
+            if (selectedIndex !== -1) {
+                openLightbox(selectedIndex);
+            }
+        });
+    });
+
+
+    /* =============================================
+       11. PREVIOUS IMAGE
+       ============================================= */
+
+    if (previousButton) {
+
+        previousButton.addEventListener(
+            "click",
+            function () {
+                showLightboxImage(
+                    currentImageIndex - 1
+                );
+            }
+        );
+    }
+
+
+    /* =============================================
+       12. NEXT IMAGE
+       ============================================= */
+
+    if (nextButton) {
+
+        nextButton.addEventListener(
+            "click",
+            function () {
+                showLightboxImage(
+                    currentImageIndex + 1
+                );
+            }
+        );
+    }
+
+
+    /* =============================================
+       13. CLOSE BUTTONS
+       ============================================= */
+
+    closeButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            closeLightbox
+        );
+    });
+
+
+    /* =============================================
+       14. KEYBOARD CONTROL
+       ============================================= */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                !lightbox ||
+                !lightbox.classList.contains("is-open")
+            ) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+
+                event.preventDefault();
+
+                closeLightbox();
+            }
+
+            if (event.key === "ArrowLeft") {
+
+                event.preventDefault();
+
+                showLightboxImage(
+                    currentImageIndex - 1
+                );
+            }
+
+            if (event.key === "ArrowRight") {
+
+                event.preventDefault();
+
+                showLightboxImage(
+                    currentImageIndex + 1
+                );
+            }
+        }
+    );
+
+
+    /* =============================================
+       15. SCROLL REVEAL ANIMATION
+       ============================================= */
+
+    const revealElements = Array.from(
+        document.querySelectorAll("[data-reveal]")
+    );
+
+    function revealAllElements() {
+
+        revealElements.forEach(function (element) {
+            element.classList.add("is-revealed");
+        });
+    }
+
+    if ("IntersectionObserver" in window) {
+
+        const revealObserver =
+            new IntersectionObserver(
+
+                function (entries, observer) {
+
+                    entries.forEach(function (entry) {
+
+                        if (entry.isIntersecting) {
+
+                            entry.target.classList.add(
+                                "is-revealed"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+                        }
+                    });
+                },
+
+                {
+                    threshold: 0.15,
+                    rootMargin: "0px 0px -40px 0px"
+                }
+            );
+
+        revealElements.forEach(function (element) {
+            revealObserver.observe(element);
+        });
+
+    } else {
+
+        revealAllElements();
+    }
+
+
+    /* =============================================
+       16. INITIAL GALLERY SETUP
+       ============================================= */
+
+    updateGalleryCounter();
+
+    const defaultActiveButton =
+        filterButtons.find(function (button) {
+            return button.classList.contains("is-active");
+        });
+
+    if (!defaultActiveButton && filterButtons.length > 0) {
+
+        filterButtons[0].classList.add("is-active");
+
+        filterButtons[0].setAttribute(
+            "aria-pressed",
+            "true"
+        );
+    }
+
+});
+
+/* =================================================
+   STEP 7 — DONATION COPY SYSTEM
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =============================================
+       1. REQUIRED ELEMENTS
+       ============================================= */
+
+    const donationCopyButtons = Array.from(
+        document.querySelectorAll(
+            ".donation-copy-button[data-copy-target]"
+        )
+    );
+
+    const donationCopyMessage =
+        document.getElementById("donationCopyMessage");
+
+    let donationMessageTimer = null;
+
+
+    /* =============================================
+       2. COPY TEXT USING MODERN BROWSER API
+       ============================================= */
+
+    async function copyWithClipboardAPI(text) {
+
+        if (
+            !navigator.clipboard ||
+            typeof navigator.clipboard.writeText !== "function"
+        ) {
+            return false;
+        }
+
+        try {
+
+            await navigator.clipboard.writeText(text);
+
+            return true;
+
+        } catch (error) {
+
+            return false;
+        }
+    }
+
+
+    /* =============================================
+       3. FALLBACK COPY METHOD
+       ============================================= */
+
+    function copyWithFallback(text) {
+
+        const temporaryTextArea =
+            document.createElement("textarea");
+
+        temporaryTextArea.value = text;
+
+        temporaryTextArea.setAttribute(
+            "readonly",
+            ""
+        );
+
+        temporaryTextArea.style.position = "fixed";
+        temporaryTextArea.style.top = "-9999px";
+        temporaryTextArea.style.left = "-9999px";
+        temporaryTextArea.style.opacity = "0";
+
+        document.body.appendChild(
+            temporaryTextArea
+        );
+
+        temporaryTextArea.focus();
+        temporaryTextArea.select();
+
+        let copiedSuccessfully = false;
+
+        try {
+
+            copiedSuccessfully =
+                document.execCommand("copy");
+
+        } catch (error) {
+
+            copiedSuccessfully = false;
+        }
+
+        document.body.removeChild(
+            temporaryTextArea
+        );
+
+        return copiedSuccessfully;
+    }
+
+
+    /* =============================================
+       4. COPY TEXT
+       ============================================= */
+
+    async function copyDonationText(text) {
+
+        const copiedWithModernMethod =
+            await copyWithClipboardAPI(text);
+
+        if (copiedWithModernMethod) {
+            return true;
+        }
+
+        return copyWithFallback(text);
+    }
+
+
+    /* =============================================
+       5. SHOW SUCCESS OR ERROR MESSAGE
+       ============================================= */
+
+    function showDonationCopyMessage(message) {
+
+        if (!donationCopyMessage) {
+            return;
+        }
+
+        donationCopyMessage.textContent = message;
+
+        donationCopyMessage.classList.add(
+            "is-visible"
+        );
+
+        donationCopyMessage.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        if (donationMessageTimer) {
+
+            window.clearTimeout(
+                donationMessageTimer
+            );
+        }
+
+        donationMessageTimer =
+            window.setTimeout(function () {
+
+                donationCopyMessage.classList.remove(
+                    "is-visible"
+                );
+
+                donationCopyMessage.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+            }, 2500);
+    }
+
+
+    /* =============================================
+       6. BUTTON COPIED STATE
+       ============================================= */
+
+    function showButtonCopiedState(button) {
+
+        if (!button) {
+            return;
+        }
+
+        const originalButtonHTML =
+            button.innerHTML;
+
+        button.classList.add(
+            "is-copied"
+        );
+
+        button.innerHTML =
+            '<span aria-hidden="true">✓</span> কপি হয়েছে';
+
+        window.setTimeout(function () {
+
+            button.classList.remove(
+                "is-copied"
+            );
+
+            button.innerHTML =
+                originalButtonHTML;
+
+        }, 1800);
+    }
+
+
+    /* =============================================
+       7. COPY BUTTON CLICK
+       ============================================= */
+
+    donationCopyButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            async function () {
+
+                const targetId =
+                    button.getAttribute(
+                        "data-copy-target"
+                    );
+
+                if (!targetId) {
+
+                    showDonationCopyMessage(
+                        "কপি করার তথ্য পাওয়া যায়নি"
+                    );
+
+                    return;
+                }
+
+                const targetElement =
+                    document.getElementById(
+                        targetId
+                    );
+
+                if (!targetElement) {
+
+                    showDonationCopyMessage(
+                        "কপি করার তথ্য পাওয়া যায়নি"
+                    );
+
+                    return;
+                }
+
+                const textToCopy =
+                    targetElement.textContent.trim();
+
+                if (!textToCopy) {
+
+                    showDonationCopyMessage(
+                        "কপি করার মতো কোনো তথ্য নেই"
+                    );
+
+                    return;
+                }
+
+                const copiedSuccessfully =
+                    await copyDonationText(
+                        textToCopy
+                    );
+
+                if (copiedSuccessfully) {
+
+                    showButtonCopiedState(
+                        button
+                    );
+
+                    showDonationCopyMessage(
+                        "নম্বর সফলভাবে কপি হয়েছে"
+                    );
+
+                } else {
+
+                    showDonationCopyMessage(
+                        "কপি করা সম্ভব হয়নি। অনুগ্রহ করে নম্বরটি ম্যানুয়ালি কপি করুন।"
+                    );
+                }
+            }
+        );
+    });
+
+});
