@@ -9096,3 +9096,1423 @@ html.js-enabled [data-reveal].is-revealed {
         animation-duration: 1.5s;
     }
 }
+/* =================================================
+   STEP 6.4 — GALLERY RESULTS COUNTER
+   ================================================= */
+
+.gallery-results-summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 18px auto 28px;
+    padding: 10px 18px;
+    border: 1px solid rgba(37, 99, 87, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 30px rgba(18, 52, 45, 0.08);
+    color: #315b52;
+}
+
+.gallery-results-summary p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.gallery-results-summary strong {
+    color: #176b57;
+    font-weight: 800;
+}
+
+.gallery-results-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(23, 107, 87, 0.12);
+    color: #176b57;
+    font-size: 0.75rem;
+}
+
+/* =================================================
+   STEP 6.4 — GALLERY FILTER VISIBILITY
+   ================================================= */
+
+.gallery-item {
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+.gallery-item.is-hidden {
+    display: none !important;
+}
+
+.gallery-item.is-filtering {
+    opacity: 0;
+    transform: scale(0.96);
+}
+
+/* =================================================
+   STEP 6.4 — GALLERY IMAGE INTERACTION
+   ================================================= */
+
+.gallery-image-link {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+.gallery-image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition:
+        transform 0.55s ease,
+        filter 0.55s ease;
+}
+
+.gallery-image-link::after {
+    content: "ছবি বড় করে দেখুন";
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    z-index: 2;
+    width: max-content;
+    max-width: calc(100% - 30px);
+    padding: 9px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    background: rgba(10, 40, 34, 0.76);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%, 14px);
+    backdrop-filter: blur(8px);
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+.gallery-image-link:hover img {
+    transform: scale(1.06);
+    filter: brightness(0.78);
+}
+
+.gallery-image-link:hover::after,
+.gallery-image-link:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.gallery-image-link:focus-visible {
+    outline: 3px solid rgba(23, 107, 87, 0.45);
+    outline-offset: 4px;
+}
+
+/* =================================================
+   STEP 6.4 — SCROLL REVEAL ANIMATION
+   ================================================= */
+
+[data-reveal] {
+    opacity: 0;
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+[data-reveal="fade-up"] {
+    transform: translateY(42px);
+}
+
+[data-reveal="fade-left"] {
+    transform: translateX(48px);
+}
+
+[data-reveal="fade-right"] {
+    transform: translateX(-48px);
+}
+
+[data-reveal="zoom-in"] {
+    transform: scale(0.9);
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* =================================================
+   STEP 6.4 — PHOTO GALLERY LIGHTBOX
+   ================================================= */
+
+.gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+}
+
+.gallery-lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.gallery-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 18, 15, 0.92);
+    backdrop-filter: blur(10px);
+}
+
+.gallery-lightbox-dialog {
+    position: relative;
+    z-index: 2;
+    width: min(1120px, 100%);
+    max-height: calc(100vh - 48px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.42);
+    overflow: hidden;
+    transform: translateY(30px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-lightbox.is-open .gallery-lightbox-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.gallery-lightbox-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.75fr);
+    max-height: calc(100vh - 48px);
+}
+
+.gallery-lightbox-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(23, 107, 87, 0.18),
+            rgba(6, 28, 23, 0.98)
+        );
+    overflow: hidden;
+}
+
+.gallery-lightbox-image-wrapper img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - 48px);
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-lightbox-image-wrapper img.is-loaded {
+    opacity: 1;
+}
+
+/* =================================================
+   STEP 6.4 — LIGHTBOX INFORMATION
+   ================================================= */
+
+.gallery-lightbox-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 38px 34px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(244, 250, 248, 1),
+            rgba(255, 255, 255, 1)
+        );
+}
+
+.gallery-lightbox-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.gallery-lightbox-category {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.11);
+    color: #176b57;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+.gallery-lightbox-counter {
+    color: #687c77;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.gallery-lightbox-information h3 {
+    margin: 0 0 14px;
+    color: #173d35;
+    font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+    line-height: 1.3;
+}
+
+.gallery-lightbox-information p {
+    margin: 0;
+    color: #647670;
+    font-size: 0.96rem;
+    line-height: 1.9;
+}
+
+/* =================================================
+   STEP 6.4 — LIGHTBOX CLOSE BUTTON
+   ================================================= */
+
+.gallery-lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    background: rgba(8, 35, 29, 0.8);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1.85rem;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(9px);
+    transition:
+        background-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.gallery-lightbox-close:hover {
+    background: #176b57;
+    transform: rotate(90deg);
+}
+
+.gallery-lightbox-close:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 3px;
+}
+
+/* =================================================
+   STEP 6.4 — LIGHTBOX NAVIGATION
+   ================================================= */
+
+.gallery-lightbox-navigation {
+    position: absolute;
+    top: 50%;
+    z-index: 9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 64px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    background: rgba(8, 35, 29, 0.74);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(9px);
+    transform: translateY(-50%);
+    transition:
+        background-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.gallery-lightbox-navigation:hover {
+    background: #176b57;
+}
+
+.gallery-lightbox-navigation:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 3px;
+}
+
+.gallery-lightbox-previous {
+    left: 16px;
+}
+
+.gallery-lightbox-next {
+    right: 16px;
+}
+
+/* =================================================
+   STEP 6.4 — LIGHTBOX LOADER
+   ================================================= */
+
+.gallery-lightbox-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 28, 23, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.gallery-lightbox-loader.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.gallery-lightbox-loader span {
+    display: block;
+    width: 46px;
+    height: 46px;
+    border: 4px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: gallery-loader-spin 0.8s linear infinite;
+}
+
+@keyframes gallery-loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =================================================
+   STEP 6.4 — PAGE SCROLL LOCK
+   ================================================= */
+
+body.gallery-lightbox-open {
+    overflow: hidden;
+}
+
+/* =================================================
+   STEP 6.4 — JAVASCRIPT WARNING
+   ================================================= */
+
+.javascript-warning {
+    margin: 20px;
+    padding: 14px 18px;
+    border: 1px solid #d9a441;
+    border-radius: 12px;
+    background: #fff8e7;
+    color: #704d0f;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* =================================================
+   STEP 6.4 — TABLET RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 980px) {
+
+    .gallery-lightbox-content {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .gallery-lightbox-image-wrapper {
+        min-height: 420px;
+        max-height: 62vh;
+    }
+
+    .gallery-lightbox-image-wrapper img {
+        max-height: 62vh;
+    }
+
+    .gallery-lightbox-information {
+        padding: 26px 28px 30px;
+    }
+
+    .gallery-lightbox-navigation {
+        top: 32%;
+    }
+}
+
+/* =================================================
+   STEP 6.4 — MOBILE RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 736px) {
+
+    .gallery-filter-controls {
+        gap: 8px;
+        margin-top: 18px;
+    }
+
+    .gallery-filter-button {
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+    }
+
+    .gallery-results-summary {
+        width: calc(100% - 20px);
+        margin-top: 16px;
+        margin-bottom: 22px;
+        padding: 9px 14px;
+    }
+
+    .gallery-results-summary p {
+        font-size: 0.82rem;
+    }
+
+    .gallery-lightbox {
+        padding: 10px;
+    }
+
+    .gallery-lightbox-dialog {
+        max-height: calc(100vh - 20px);
+        border-radius: 18px;
+    }
+
+    .gallery-lightbox-content {
+        max-height: calc(100vh - 20px);
+    }
+
+    .gallery-lightbox-image-wrapper {
+        min-height: 310px;
+        max-height: 55vh;
+    }
+
+    .gallery-lightbox-image-wrapper img {
+        max-height: 55vh;
+    }
+
+    .gallery-lightbox-information {
+        padding: 22px 20px 26px;
+    }
+
+    .gallery-lightbox-information h3 {
+        font-size: 1.35rem;
+    }
+
+    .gallery-lightbox-information p {
+        font-size: 0.88rem;
+        line-height: 1.75;
+    }
+
+    .gallery-lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .gallery-lightbox-navigation {
+        top: 28%;
+        width: 40px;
+        height: 54px;
+        border-radius: 13px;
+        font-size: 1.85rem;
+    }
+
+    .gallery-lightbox-previous {
+        left: 8px;
+    }
+
+    .gallery-lightbox-next {
+        right: 8px;
+    }
+
+    .gallery-image-link::after {
+        display: none;
+    }
+}
+
+/* =================================================
+   STEP 6.4 — SMALL MOBILE RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .gallery-filter-controls {
+        align-items: stretch;
+    }
+
+    .gallery-filter-button {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+    }
+
+    .gallery-lightbox-image-wrapper {
+        min-height: 260px;
+    }
+
+    .gallery-lightbox-meta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+/* =================================================
+   STEP 6.4 — REDUCED MOTION ACCESSIBILITY
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    [data-reveal],
+    .gallery-item,
+    .gallery-image-link img,
+    .gallery-image-link::after,
+    .gallery-lightbox,
+    .gallery-lightbox-dialog,
+    .gallery-lightbox-close,
+    .gallery-lightbox-navigation {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* =================================================
+   STEP 7 — DONATION SECTION
+   ================================================= */
+
+.donation-section {
+    position: relative;
+    padding: 110px 24px;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(23, 107, 87, 0.12),
+            transparent 36%
+        ),
+        linear-gradient(
+            180deg,
+            #f5faf8 0%,
+            #ffffff 100%
+        );
+    overflow: hidden;
+}
+
+.donation-section::before {
+    content: "";
+    position: absolute;
+    top: -180px;
+    right: -180px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(23, 107, 87, 0.07);
+    pointer-events: none;
+}
+
+.donation-container {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+/* =================================================
+   DONATION HEADING
+   ================================================= */
+
+.donation-heading {
+    width: min(760px, 100%);
+    margin: 0 auto 58px;
+    text-align: center;
+}
+
+.donation-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    border: 1px solid rgba(23, 107, 87, 0.16);
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.08);
+    color: #176b57;
+    font-size: 0.84rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.donation-heading h2 {
+    margin: 0 0 18px;
+    color: #153f36;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.18;
+}
+
+.donation-heading p {
+    margin: 0;
+    color: #647a74;
+    font-size: 1rem;
+    line-height: 1.9;
+}
+
+/* =================================================
+   DONATION LAYOUT
+   ================================================= */
+
+.donation-layout {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 0.92fr)
+        minmax(0, 1.08fr);
+    gap: 34px;
+    align-items: start;
+}
+
+.donation-information,
+.donation-methods {
+    min-width: 0;
+}
+
+/* =================================================
+   DONATION MESSAGE CARD
+   ================================================= */
+
+.donation-message-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 22px;
+    padding: 30px;
+    border: 1px solid rgba(23, 107, 87, 0.13);
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 107, 87, 0.96),
+            rgba(13, 73, 60, 0.98)
+        );
+    box-shadow: 0 24px 55px rgba(16, 74, 61, 0.18);
+    color: #ffffff;
+}
+
+.donation-message-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.13);
+    font-size: 1.35rem;
+}
+
+.donation-message-card h3 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+.donation-message-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.94rem;
+    line-height: 1.85;
+}
+
+/* =================================================
+   DONATION PURPOSE LIST
+   ================================================= */
+
+.donation-purpose-list {
+    display: grid;
+    gap: 14px;
+}
+
+.donation-purpose-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 34px rgba(20, 65, 55, 0.07);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.donation-purpose-item:hover {
+    border-color: rgba(23, 107, 87, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 42px rgba(20, 65, 55, 0.11);
+}
+
+.donation-purpose-number {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    background: rgba(23, 107, 87, 0.1);
+    color: #176b57;
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.donation-purpose-item h4 {
+    margin: 0 0 7px;
+    color: #173f36;
+    font-size: 1.02rem;
+    line-height: 1.45;
+}
+
+.donation-purpose-item p {
+    margin: 0;
+    color: #687c77;
+    font-size: 0.88rem;
+    line-height: 1.75;
+}
+
+/* =================================================
+   DONATION TRANSPARENCY NOTE
+   ================================================= */
+
+.donation-transparency-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 20px 22px;
+    border: 1px solid rgba(192, 146, 45, 0.22);
+    border-radius: 18px;
+    background: #fffaf0;
+}
+
+.donation-transparency-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #d79b25;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.donation-transparency-note h4 {
+    margin: 0 0 6px;
+    color: #6b4b0e;
+    font-size: 0.98rem;
+}
+
+.donation-transparency-note p {
+    margin: 0;
+    color: #7b6741;
+    font-size: 0.85rem;
+    line-height: 1.75;
+}
+
+/* =================================================
+   DONATION METHODS
+   ================================================= */
+
+.donation-methods {
+    padding: 30px;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 28px 70px rgba(20, 65, 55, 0.13);
+}
+
+.donation-methods-heading {
+    margin-bottom: 24px;
+}
+
+.donation-methods-heading > span {
+    display: block;
+    margin-bottom: 7px;
+    color: #176b57;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.donation-methods-heading h3 {
+    margin: 0;
+    color: #173f36;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.4;
+}
+
+.donation-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* =================================================
+   MOBILE BANKING CARD
+   ================================================= */
+
+.donation-method-card {
+    position: relative;
+    padding: 22px;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 22px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(20, 65, 55, 0.07);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.donation-method-card:hover {
+    border-color: rgba(23, 107, 87, 0.26);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px rgba(20, 65, 55, 0.11);
+}
+
+.donation-method-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.donation-method-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.donation-method-logo {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.donation-method-logo-bkash {
+    background:
+        linear-gradient(
+            145deg,
+            #e2136e,
+            #b80c57
+        );
+}
+
+.donation-method-logo-nagad {
+    background:
+        linear-gradient(
+            145deg,
+            #f25c19,
+            #c63d0b
+        );
+}
+
+.donation-method-label {
+    display: block;
+    margin-bottom: 2px;
+    color: #899792;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.donation-method-brand h4 {
+    margin: 0;
+    color: #183f36;
+    font-size: 1.15rem;
+}
+
+.donation-method-type {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.08);
+    color: #176b57;
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+/* =================================================
+   DONATION NUMBER
+   ================================================= */
+
+.donation-number-wrapper {
+    margin-bottom: 16px;
+    padding: 15px 16px;
+    border: 1px dashed rgba(23, 107, 87, 0.24);
+    border-radius: 15px;
+    background: #f7fbf9;
+}
+
+.donation-number-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #8a9994;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.donation-number {
+    display: block;
+    color: #173f36;
+    font-family: inherit;
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    word-break: break-all;
+}
+
+/* =================================================
+   DONATION COPY BUTTON
+   ================================================= */
+
+.donation-copy-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgba(23, 107, 87, 0.2);
+    border-radius: 13px;
+    background: rgba(23, 107, 87, 0.08);
+    color: #176b57;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.donation-copy-button:hover {
+    border-color: #176b57;
+    background: #176b57;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.donation-copy-button:focus-visible {
+    outline: 3px solid rgba(23, 107, 87, 0.25);
+    outline-offset: 3px;
+}
+
+.donation-copy-button.is-copied {
+    border-color: #176b57;
+    background: #176b57;
+    color: #ffffff;
+}
+
+/* =================================================
+   DONATION BANK CARD
+   ================================================= */
+
+.donation-bank-card {
+    margin-top: 16px;
+    padding: 24px;
+    border: 1px solid rgba(23, 107, 87, 0.13);
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            145deg,
+            #f8fcfa,
+            #ffffff
+        );
+}
+
+.donation-bank-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.donation-bank-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: #176b57;
+    color: #ffffff;
+    font-size: 1.15rem;
+}
+
+.donation-bank-heading span {
+    display: block;
+    margin-bottom: 3px;
+    color: #84938e;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.donation-bank-heading h4 {
+    margin: 0;
+    color: #173f36;
+    font-size: 1.15rem;
+}
+
+.donation-bank-details {
+    display: grid;
+    gap: 0;
+    margin-bottom: 18px;
+    border: 1px solid rgba(23, 107, 87, 0.11);
+    border-radius: 16px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.donation-bank-row {
+    display: grid;
+    grid-template-columns: 145px minmax(0, 1fr);
+    gap: 18px;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(23, 107, 87, 0.09);
+}
+
+.donation-bank-row:last-child {
+    border-bottom: 0;
+}
+
+.donation-bank-row span {
+    color: #87958f;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.donation-bank-row strong {
+    color: #244d44;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: right;
+    word-break: break-word;
+}
+
+.donation-bank-copy-button {
+    width: auto;
+    min-width: 210px;
+}
+
+/* =================================================
+   DONATION PAYMENT NOTICE
+   ================================================= */
+
+.donation-payment-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-left: 4px solid #d79523;
+    border-radius: 12px;
+    background: #fff8e8;
+}
+
+.donation-payment-notice-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #d79523;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.donation-payment-notice p {
+    margin: 0;
+    color: #725a2d;
+    font-size: 0.82rem;
+    line-height: 1.75;
+}
+
+/* =================================================
+   DONATION ACTIONS
+   ================================================= */
+
+.donation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.donation-primary-button,
+.donation-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 11px 20px;
+    border-radius: 14px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.donation-primary-button {
+    border: 1px solid #176b57;
+    background: #176b57;
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(23, 107, 87, 0.2);
+}
+
+.donation-primary-button:hover {
+    background: #105545;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(23, 107, 87, 0.26);
+}
+
+.donation-secondary-button {
+    border: 1px solid rgba(23, 107, 87, 0.22);
+    background: #ffffff;
+    color: #176b57;
+}
+
+.donation-secondary-button:hover {
+    border-color: #176b57;
+    background: rgba(23, 107, 87, 0.07);
+    color: #176b57;
+    transform: translateY(-2px);
+}
+
+/* =================================================
+   DONATION COPY SUCCESS MESSAGE
+   ================================================= */
+
+.donation-copy-message {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 100000;
+    max-width: calc(100% - 44px);
+    padding: 13px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    background: #173f36;
+    color: #ffffff;
+    font-size: 0.84rem;
+    font-weight: 800;
+    box-shadow: 0 18px 45px rgba(10, 45, 37, 0.28);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px);
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+}
+
+.donation-copy-message.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* =================================================
+   DONATION TABLET RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 980px) {
+
+    .donation-section {
+        padding: 90px 22px;
+    }
+
+    .donation-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .donation-information {
+        order: 1;
+    }
+
+    .donation-methods {
+        order: 2;
+    }
+}
+
+/* =================================================
+   DONATION MOBILE RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 736px) {
+
+    .donation-section {
+        padding: 72px 16px;
+    }
+
+    .donation-heading {
+        margin-bottom: 38px;
+    }
+
+    .donation-heading h2 {
+        font-size: 2rem;
+    }
+
+    .donation-message-card {
+        flex-direction: column;
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+
+    .donation-purpose-item {
+        padding: 19px 17px;
+    }
+
+    .donation-methods {
+        padding: 22px 17px;
+        border-radius: 22px;
+    }
+
+    .donation-methods-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .donation-bank-card {
+        padding: 20px 16px;
+    }
+
+    .donation-bank-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .donation-bank-row strong {
+        text-align: left;
+    }
+
+    .donation-bank-copy-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .donation-actions {
+        flex-direction: column;
+    }
+
+    .donation-primary-button,
+    .donation-secondary-button {
+        width: 100%;
+    }
+}
+
+/* =================================================
+   DONATION SMALL MOBILE
+   ================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .donation-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .donation-method-top {
+        flex-direction: column;
+    }
+
+    .donation-method-type {
+        margin-left: 58px;
+    }
+
+    .donation-copy-message {
+        right: 12px;
+        bottom: 12px;
+        max-width: calc(100% - 24px);
+    }
+}
+
+/* =================================================
+   DONATION REDUCED MOTION
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .donation-purpose-item,
+    .donation-method-card,
+    .donation-copy-button,
+    .donation-primary-button,
+    .donation-secondary-button,
+    .donation-copy-message {
+        transition: none !important;
+    }
+}
+
