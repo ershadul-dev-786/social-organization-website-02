@@ -2003,3 +2003,809 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+/* =================================================
+   STEP 8 — VOLUNTEER REGISTRATION FORM
+   VALIDATION AND SUBMISSION
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =============================================
+       1. REQUIRED ELEMENTS
+       ============================================= */
+
+    const volunteerForm =
+        document.getElementById(
+            "volunteerRegistrationForm"
+        );
+
+    const volunteerSubmitButton =
+        document.getElementById(
+            "volunteerSubmitButton"
+        );
+
+    const volunteerFormMessage =
+        document.getElementById(
+            "volunteerFormMessage"
+        );
+
+    const volunteerInterestError =
+        document.getElementById(
+            "volunteerInterestError"
+        );
+
+    const volunteerAgreementError =
+        document.getElementById(
+            "volunteerAgreementError"
+        );
+
+    if (!volunteerForm) {
+        return;
+    }
+
+
+    /* =============================================
+       2. FIELD CONFIGURATION
+       ============================================= */
+
+    const requiredFields = [
+        {
+            id: "volunteerFullName",
+            message: "আপনার পূর্ণ নাম লিখুন।"
+        },
+        {
+            id: "volunteerGender",
+            message: "লিঙ্গ নির্বাচন করুন।"
+        },
+        {
+            id: "volunteerProfession",
+            message: "পেশা নির্বাচন করুন।"
+        },
+        {
+            id: "volunteerMobile",
+            message: "সঠিক মোবাইল নম্বর লিখুন।"
+        },
+        {
+            id: "volunteerAddress",
+            message: "বর্তমান ঠিকানা লিখুন।"
+        },
+        {
+            id: "volunteerAvailability",
+            message: "সময় দেওয়ার সক্ষমতা নির্বাচন করুন।"
+        },
+        {
+            id: "volunteerMotivation",
+            message: "কেন স্বেচ্ছাসেবক হতে চান তা লিখুন।"
+        }
+    ];
+
+
+    /* =============================================
+       3. FORM MESSAGE
+       ============================================= */
+
+    function showVolunteerFormMessage(
+        message,
+        type
+    ) {
+        if (!volunteerFormMessage) {
+            return;
+        }
+
+        volunteerFormMessage.textContent =
+            message;
+
+        volunteerFormMessage.classList.remove(
+            "is-success",
+            "is-error"
+        );
+
+        volunteerFormMessage.classList.add(
+            "is-visible"
+        );
+
+        if (type === "success") {
+            volunteerFormMessage.classList.add(
+                "is-success"
+            );
+        }
+
+        if (type === "error") {
+            volunteerFormMessage.classList.add(
+                "is-error"
+            );
+        }
+
+        volunteerFormMessage.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+    }
+
+
+    function hideVolunteerFormMessage() {
+        if (!volunteerFormMessage) {
+            return;
+        }
+
+        volunteerFormMessage.textContent = "";
+
+        volunteerFormMessage.classList.remove(
+            "is-visible",
+            "is-success",
+            "is-error"
+        );
+
+        volunteerFormMessage.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+    }
+
+
+    /* =============================================
+       4. FIELD ERROR HELPERS
+       ============================================= */
+
+    function getFieldWrapper(field) {
+        return field.closest(
+            ".volunteer-form-field"
+        );
+    }
+
+
+    function getFieldErrorElement(field) {
+        const wrapper = getFieldWrapper(field);
+
+        if (!wrapper) {
+            return null;
+        }
+
+        return wrapper.querySelector(
+            ".volunteer-field-error"
+        );
+    }
+
+
+    function showFieldError(
+        field,
+        message
+    ) {
+        const wrapper = getFieldWrapper(field);
+
+        const errorElement =
+            getFieldErrorElement(field);
+
+        if (wrapper) {
+            wrapper.classList.add("has-error");
+            wrapper.classList.remove(
+                "has-success"
+            );
+        }
+
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
+
+        field.setAttribute(
+            "aria-invalid",
+            "true"
+        );
+    }
+
+
+    function clearFieldError(field) {
+        const wrapper = getFieldWrapper(field);
+
+        const errorElement =
+            getFieldErrorElement(field);
+
+        if (wrapper) {
+            wrapper.classList.remove(
+                "has-error"
+            );
+
+            wrapper.classList.add(
+                "has-success"
+            );
+        }
+
+        if (errorElement) {
+            errorElement.textContent = "";
+        }
+
+        field.setAttribute(
+            "aria-invalid",
+            "false"
+        );
+    }
+
+
+    function resetFieldState(field) {
+        const wrapper = getFieldWrapper(field);
+
+        const errorElement =
+            getFieldErrorElement(field);
+
+        if (wrapper) {
+            wrapper.classList.remove(
+                "has-error",
+                "has-success"
+            );
+        }
+
+        if (errorElement) {
+            errorElement.textContent = "";
+        }
+
+        field.removeAttribute("aria-invalid");
+    }
+
+
+    /* =============================================
+       5. MOBILE NUMBER VALIDATION
+       ============================================= */
+
+    function normalizeBangladeshMobile(
+        value
+    ) {
+        return value.replace(/\D/g, "");
+    }
+
+
+    function isValidBangladeshMobile(
+        value
+    ) {
+        const mobileNumber =
+            normalizeBangladeshMobile(value);
+
+        return /^01[3-9]\d{8}$/.test(
+            mobileNumber
+        );
+    }
+
+
+    /* =============================================
+       6. EMAIL VALIDATION
+       ============================================= */
+
+    function isValidEmail(value) {
+        if (!value) {
+            return true;
+        }
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            value
+        );
+    }
+
+
+    /* =============================================
+       7. SINGLE FIELD VALIDATION
+       ============================================= */
+
+    function validateSingleField(field) {
+        const fieldValue =
+            field.value.trim();
+
+        const fieldId = field.id;
+
+        const configuredField =
+            requiredFields.find(
+                function (item) {
+                    return item.id === fieldId;
+                }
+            );
+
+        if (
+            configuredField &&
+            !fieldValue
+        ) {
+            showFieldError(
+                field,
+                configuredField.message
+            );
+
+            return false;
+        }
+
+        if (
+            fieldId === "volunteerMobile" &&
+            !isValidBangladeshMobile(fieldValue)
+        ) {
+            showFieldError(
+                field,
+                "১১ সংখ্যার সঠিক বাংলাদেশি মোবাইল নম্বর লিখুন।"
+            );
+
+            return false;
+        }
+
+        if (
+            fieldId === "volunteerWhatsApp" &&
+            fieldValue &&
+            !isValidBangladeshMobile(fieldValue)
+        ) {
+            showFieldError(
+                field,
+                "সঠিক WhatsApp নম্বর লিখুন।"
+            );
+
+            return false;
+        }
+
+        if (
+            fieldId === "volunteerEmail" &&
+            !isValidEmail(fieldValue)
+        ) {
+            showFieldError(
+                field,
+                "সঠিক Email Address লিখুন।"
+            );
+
+            return false;
+        }
+
+        if (
+            fieldId === "volunteerMotivation" &&
+            fieldValue.length < 10
+        ) {
+            showFieldError(
+                field,
+                "কমপক্ষে ১০ অক্ষরে আপনার আগ্রহ লিখুন।"
+            );
+
+            return false;
+        }
+
+        clearFieldError(field);
+
+        return true;
+    }
+
+
+    /* =============================================
+       8. INTEREST VALIDATION
+       ============================================= */
+
+    function validateVolunteerInterests() {
+        const selectedInterests =
+            volunteerForm.querySelectorAll(
+                'input[name="interests"]:checked'
+            );
+
+        if (selectedInterests.length === 0) {
+            if (volunteerInterestError) {
+                volunteerInterestError.textContent =
+                    "কমপক্ষে একটি কার্যক্রম নির্বাচন করুন।";
+            }
+
+            return false;
+        }
+
+        if (volunteerInterestError) {
+            volunteerInterestError.textContent = "";
+        }
+
+        return true;
+    }
+
+
+    /* =============================================
+       9. AGREEMENT VALIDATION
+       ============================================= */
+
+    function validateVolunteerAgreement() {
+        const agreementCheckbox =
+            document.getElementById(
+                "volunteerAgreement"
+            );
+
+        if (
+            !agreementCheckbox ||
+            !agreementCheckbox.checked
+        ) {
+            if (volunteerAgreementError) {
+                volunteerAgreementError.textContent =
+                    "নিবন্ধন জমা দিতে সম্মতি প্রদান করুন।";
+            }
+
+            return false;
+        }
+
+        if (volunteerAgreementError) {
+            volunteerAgreementError.textContent = "";
+        }
+
+        return true;
+    }
+
+
+    /* =============================================
+       10. COMPLETE FORM VALIDATION
+       ============================================= */
+
+    function validateVolunteerForm() {
+        let formIsValid = true;
+        let firstInvalidField = null;
+
+        requiredFields.forEach(
+            function (configuredField) {
+                const field =
+                    document.getElementById(
+                        configuredField.id
+                    );
+
+                if (!field) {
+                    return;
+                }
+
+                const fieldIsValid =
+                    validateSingleField(field);
+
+                if (!fieldIsValid) {
+                    formIsValid = false;
+
+                    if (!firstInvalidField) {
+                        firstInvalidField = field;
+                    }
+                }
+            }
+        );
+
+        const optionalFields = [
+            "volunteerWhatsApp",
+            "volunteerEmail"
+        ];
+
+        optionalFields.forEach(
+            function (fieldId) {
+                const field =
+                    document.getElementById(
+                        fieldId
+                    );
+
+                if (
+                    field &&
+                    field.value.trim()
+                ) {
+                    const fieldIsValid =
+                        validateSingleField(field);
+
+                    if (!fieldIsValid) {
+                        formIsValid = false;
+
+                        if (!firstInvalidField) {
+                            firstInvalidField =
+                                field;
+                        }
+                    }
+                }
+            }
+        );
+
+        if (!validateVolunteerInterests()) {
+            formIsValid = false;
+
+            if (!firstInvalidField) {
+                firstInvalidField =
+                    volunteerForm.querySelector(
+                        'input[name="interests"]'
+                    );
+            }
+        }
+
+        if (!validateVolunteerAgreement()) {
+            formIsValid = false;
+
+            if (!firstInvalidField) {
+                firstInvalidField =
+                    document.getElementById(
+                        "volunteerAgreement"
+                    );
+            }
+        }
+
+        if (
+            !formIsValid &&
+            firstInvalidField
+        ) {
+            firstInvalidField.focus();
+
+            firstInvalidField.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+
+        return formIsValid;
+    }
+
+
+    /* =============================================
+       11. SUBMIT BUTTON LOADING STATE
+       ============================================= */
+
+    function setVolunteerLoadingState(
+        isLoading
+    ) {
+        if (!volunteerSubmitButton) {
+            return;
+        }
+
+        volunteerSubmitButton.classList.toggle(
+            "is-loading",
+            isLoading
+        );
+
+        volunteerSubmitButton.disabled =
+            isLoading;
+
+        const buttonText =
+            volunteerSubmitButton.querySelector(
+                ".volunteer-submit-text"
+            );
+
+        if (buttonText) {
+            buttonText.textContent =
+                isLoading
+                    ? "জমা দেওয়া হচ্ছে..."
+                    : "নিবন্ধন জমা দিন";
+        }
+    }
+
+
+    /* =============================================
+       12. FORM DATA PREPARATION
+       ============================================= */
+
+    function collectVolunteerFormData() {
+        const formData =
+            new FormData(volunteerForm);
+
+        const selectedInterests =
+            Array.from(
+                volunteerForm.querySelectorAll(
+                    'input[name="interests"]:checked'
+                )
+            ).map(function (checkbox) {
+                return checkbox.value;
+            });
+
+        return {
+            fullName:
+                formData.get("fullName") || "",
+            guardianName:
+                formData.get("guardianName") || "",
+            dateOfBirth:
+                formData.get("dateOfBirth") || "",
+            gender:
+                formData.get("gender") || "",
+            bloodGroup:
+                formData.get("bloodGroup") || "",
+            profession:
+                formData.get("profession") || "",
+            mobile:
+                formData.get("mobile") || "",
+            whatsApp:
+                formData.get("whatsApp") || "",
+            email:
+                formData.get("email") || "",
+            address:
+                formData.get("address") || "",
+            interests: selectedInterests,
+            skills:
+                formData.get("skills") || "",
+            availability:
+                formData.get("availability") || "",
+            experience:
+                formData.get("experience") || "",
+            motivation:
+                formData.get("motivation") || "",
+            agreement:
+                formData.get("agreement")
+                    ? true
+                    : false
+        };
+    }
+
+
+    /* =============================================
+       13. FORM SUBMISSION
+       ============================================= */
+
+    volunteerForm.addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
+
+            hideVolunteerFormMessage();
+
+            const formIsValid =
+                validateVolunteerForm();
+
+            if (!formIsValid) {
+                showVolunteerFormMessage(
+                    "অনুগ্রহ করে চিহ্নিত তথ্যগুলো সঠিকভাবে পূরণ করুন।",
+                    "error"
+                );
+
+                return;
+            }
+
+            setVolunteerLoadingState(true);
+
+            const volunteerData =
+                collectVolunteerFormData();
+
+            /*
+                ভবিষ্যতে Google Sheets অথবা
+                অন্য Database-এ পাঠাতে এই
+                volunteerData ব্যবহার করা হবে।
+            */
+
+            console.log(
+                "Volunteer Registration Data:",
+                volunteerData
+            );
+
+            window.setTimeout(function () {
+                setVolunteerLoadingState(false);
+
+                showVolunteerFormMessage(
+                    "আপনার স্বেচ্ছাসেবক নিবন্ধন সফলভাবে গ্রহণ করা হয়েছে। শিগগিরই আপনার সঙ্গে যোগাযোগ করা হবে।",
+                    "success"
+                );
+
+                volunteerForm.reset();
+
+                resetAllVolunteerFieldStates();
+
+                volunteerFormMessage.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }, 1200);
+        }
+    );
+
+
+    /* =============================================
+       14. LIVE FIELD VALIDATION
+       ============================================= */
+
+    const volunteerFormFields =
+        Array.from(
+            volunteerForm.querySelectorAll(
+                "input, select, textarea"
+            )
+        );
+
+    volunteerFormFields.forEach(
+        function (field) {
+            if (
+                field.type === "checkbox"
+            ) {
+                return;
+            }
+
+            field.addEventListener(
+                "blur",
+                function () {
+                    if (
+                        field.required ||
+                        field.value.trim()
+                    ) {
+                        validateSingleField(field);
+                    }
+                }
+            );
+
+            field.addEventListener(
+                "input",
+                function () {
+                    const wrapper =
+                        getFieldWrapper(field);
+
+                    if (
+                        wrapper &&
+                        wrapper.classList.contains(
+                            "has-error"
+                        )
+                    ) {
+                        validateSingleField(field);
+                    }
+                }
+            );
+
+            field.addEventListener(
+                "change",
+                function () {
+                    if (
+                        field.required ||
+                        field.value.trim()
+                    ) {
+                        validateSingleField(field);
+                    }
+                }
+            );
+        }
+    );
+
+
+    /* =============================================
+       15. INTEREST CHECKBOX EVENTS
+       ============================================= */
+
+    const interestCheckboxes =
+        Array.from(
+            volunteerForm.querySelectorAll(
+                'input[name="interests"]'
+            )
+        );
+
+    interestCheckboxes.forEach(
+        function (checkbox) {
+            checkbox.addEventListener(
+                "change",
+                validateVolunteerInterests
+            );
+        }
+    );
+
+
+    /* =============================================
+       16. AGREEMENT EVENT
+       ============================================= */
+
+    const volunteerAgreement =
+        document.getElementById(
+            "volunteerAgreement"
+        );
+
+    if (volunteerAgreement) {
+        volunteerAgreement.addEventListener(
+            "change",
+            validateVolunteerAgreement
+        );
+    }
+
+
+    /* =============================================
+       17. RESET ALL FIELD STATES
+       ============================================= */
+
+    function resetAllVolunteerFieldStates() {
+        volunteerFormFields.forEach(
+            function (field) {
+                resetFieldState(field);
+            }
+        );
+
+        if (volunteerInterestError) {
+            volunteerInterestError.textContent = "";
+        }
+
+        if (volunteerAgreementError) {
+            volunteerAgreementError.textContent = "";
+        }
+    }
+
+
+    /* =============================================
+       18. RESET BUTTON EVENT
+       ============================================= */
+
+    volunteerForm.addEventListener(
+        "reset",
+        function () {
+            window.setTimeout(function () {
+                resetAllVolunteerFieldStates();
+                hideVolunteerFormMessage();
+                setVolunteerLoadingState(false);
+            }, 0);
+        }
+    );
+
+});
