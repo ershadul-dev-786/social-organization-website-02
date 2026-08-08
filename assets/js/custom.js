@@ -2809,3 +2809,751 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 });
+
+/* =================================================
+   STEP 9 — EXECUTIVE COMMITTEE IMAGE FALLBACK
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const committeeImages = Array.from(
+        document.querySelectorAll(
+            ".committee-member-image img, " +
+            ".committee-small-member-card img"
+        )
+    );
+
+    if (!committeeImages.length) {
+        return;
+    }
+
+    function applyCommitteeImageFallback(image) {
+
+        const mainImageWrapper = image.closest(
+            ".committee-member-image"
+        );
+
+        const smallMemberCard = image.closest(
+            ".committee-small-member-card"
+        );
+
+        if (mainImageWrapper) {
+            mainImageWrapper.classList.add(
+                "has-image-error"
+            );
+        }
+
+        if (smallMemberCard) {
+            smallMemberCard.classList.add(
+                "has-image-error"
+            );
+        }
+
+        image.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+    }
+
+    committeeImages.forEach(function (image) {
+
+        image.addEventListener(
+            "error",
+            function () {
+                applyCommitteeImageFallback(image);
+            }
+        );
+
+        if (
+            image.complete &&
+            image.naturalWidth === 0
+        ) {
+            applyCommitteeImageFallback(image);
+        }
+    });
+
+});
+/* =================================================
+   STEP 10 — CONTACT FORM VALIDATION
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contactForm =
+        document.getElementById("contactForm");
+
+    const contactSubmitButton =
+        document.getElementById(
+            "contactSubmitButton"
+        );
+
+    const contactFormMessage =
+        document.getElementById(
+            "contactFormMessage"
+        );
+
+    if (!contactForm) {
+        return;
+    }
+
+    const contactName =
+        document.getElementById("contactName");
+
+    const contactPhone =
+        document.getElementById("contactPhone");
+
+    const contactEmail =
+        document.getElementById("contactEmail");
+
+    const contactSubject =
+        document.getElementById("contactSubject");
+
+    const contactMessage =
+        document.getElementById("contactMessage");
+
+
+    /* =============================================
+       1. FORM MESSAGE
+       ============================================= */
+
+    function showContactFormMessage(
+        message,
+        type
+    ) {
+        if (!contactFormMessage) {
+            return;
+        }
+
+        contactFormMessage.textContent = message;
+
+        contactFormMessage.classList.remove(
+            "is-success",
+            "is-error"
+        );
+
+        contactFormMessage.classList.add(
+            "is-visible"
+        );
+
+        if (type === "success") {
+            contactFormMessage.classList.add(
+                "is-success"
+            );
+        }
+
+        if (type === "error") {
+            contactFormMessage.classList.add(
+                "is-error"
+            );
+        }
+
+        contactFormMessage.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+    }
+
+
+    function hideContactFormMessage() {
+        if (!contactFormMessage) {
+            return;
+        }
+
+        contactFormMessage.textContent = "";
+
+        contactFormMessage.classList.remove(
+            "is-visible",
+            "is-success",
+            "is-error"
+        );
+
+        contactFormMessage.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+    }
+
+
+    /* =============================================
+       2. FIELD ERROR
+       ============================================= */
+
+    function showContactFieldError(field) {
+        if (!field) {
+            return;
+        }
+
+        field.classList.add("has-error");
+
+        field.setAttribute(
+            "aria-invalid",
+            "true"
+        );
+    }
+
+
+    function clearContactFieldError(field) {
+        if (!field) {
+            return;
+        }
+
+        field.classList.remove("has-error");
+
+        field.setAttribute(
+            "aria-invalid",
+            "false"
+        );
+    }
+
+
+    /* =============================================
+       3. MOBILE VALIDATION
+       ============================================= */
+
+    function isValidContactMobile(value) {
+        const cleanNumber =
+            value.replace(/\D/g, "");
+
+        return /^01[3-9]\d{8}$/.test(
+            cleanNumber
+        );
+    }
+
+
+    /* =============================================
+       4. EMAIL VALIDATION
+       ============================================= */
+
+    function isValidContactEmail(value) {
+        if (!value) {
+            return true;
+        }
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            value
+        );
+    }
+
+
+    /* =============================================
+       5. COMPLETE VALIDATION
+       ============================================= */
+
+    function validateContactForm() {
+        let isValid = true;
+        let firstInvalidField = null;
+
+        const requiredFields = [
+            contactName,
+            contactPhone,
+            contactSubject,
+            contactMessage
+        ];
+
+        requiredFields.forEach(function (field) {
+            if (!field) {
+                return;
+            }
+
+            if (!field.value.trim()) {
+                showContactFieldError(field);
+
+                isValid = false;
+
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+            } else {
+                clearContactFieldError(field);
+            }
+        });
+
+        if (
+            contactPhone &&
+            contactPhone.value.trim() &&
+            !isValidContactMobile(
+                contactPhone.value
+            )
+        ) {
+            showContactFieldError(contactPhone);
+
+            isValid = false;
+
+            if (!firstInvalidField) {
+                firstInvalidField = contactPhone;
+            }
+        }
+
+        if (
+            contactEmail &&
+            contactEmail.value.trim() &&
+            !isValidContactEmail(
+                contactEmail.value.trim()
+            )
+        ) {
+            showContactFieldError(contactEmail);
+
+            isValid = false;
+
+            if (!firstInvalidField) {
+                firstInvalidField = contactEmail;
+            }
+        } else if (
+            contactEmail &&
+            contactEmail.value.trim()
+        ) {
+            clearContactFieldError(contactEmail);
+        }
+
+        if (
+            contactMessage &&
+            contactMessage.value.trim() &&
+            contactMessage.value.trim().length < 10
+        ) {
+            showContactFieldError(contactMessage);
+
+            isValid = false;
+
+            if (!firstInvalidField) {
+                firstInvalidField = contactMessage;
+            }
+        }
+
+        if (
+            !isValid &&
+            firstInvalidField
+        ) {
+            firstInvalidField.focus();
+
+            firstInvalidField.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+
+        return isValid;
+    }
+
+
+    /* =============================================
+       6. SUBMIT LOADING STATE
+       ============================================= */
+
+    function setContactLoadingState(
+        isLoading
+    ) {
+        if (!contactSubmitButton) {
+            return;
+        }
+
+        contactSubmitButton.classList.toggle(
+            "is-loading",
+            isLoading
+        );
+
+        contactSubmitButton.disabled =
+            isLoading;
+
+        const buttonText =
+            contactSubmitButton.querySelector(
+                ".contact-submit-text"
+            );
+
+        if (buttonText) {
+            buttonText.textContent =
+                isLoading
+                    ? "পাঠানো হচ্ছে..."
+                    : "বার্তা পাঠান";
+        }
+    }
+
+
+    /* =============================================
+       7. FORM SUBMISSION
+       ============================================= */
+
+    contactForm.addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
+
+            hideContactFormMessage();
+
+            const formIsValid =
+                validateContactForm();
+
+            if (!formIsValid) {
+                showContactFormMessage(
+                    "অনুগ্রহ করে প্রয়োজনীয় তথ্যগুলো সঠিকভাবে পূরণ করুন।",
+                    "error"
+                );
+
+                return;
+            }
+
+            setContactLoadingState(true);
+
+            const contactFormData = {
+                name: contactName.value.trim(),
+                phone: contactPhone.value.trim(),
+                email: contactEmail
+                    ? contactEmail.value.trim()
+                    : "",
+                subject:
+                    contactSubject.value.trim(),
+                message:
+                    contactMessage.value.trim()
+            };
+
+            /*
+                ভবিষ্যতে Email Service,
+                Google Sheets অথবা Database-এ
+                পাঠাতে contactFormData ব্যবহার হবে।
+            */
+
+            console.log(
+                "Contact Form Data:",
+                contactFormData
+            );
+
+            window.setTimeout(function () {
+                setContactLoadingState(false);
+
+                showContactFormMessage(
+                    "আপনার বার্তা সফলভাবে গ্রহণ করা হয়েছে। শিগগিরই আপনার সঙ্গে যোগাযোগ করা হবে।",
+                    "success"
+                );
+
+                contactForm.reset();
+
+                [
+                    contactName,
+                    contactPhone,
+                    contactEmail,
+                    contactSubject,
+                    contactMessage
+                ].forEach(function (field) {
+                    clearContactFieldError(field);
+                });
+
+                contactFormMessage.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }, 1100);
+        }
+    );
+
+
+    /* =============================================
+       8. LIVE ERROR CLEAR
+       ============================================= */
+
+    [
+        contactName,
+        contactPhone,
+        contactEmail,
+        contactSubject,
+        contactMessage
+    ].forEach(function (field) {
+        if (!field) {
+            return;
+        }
+
+        field.addEventListener(
+            "input",
+            function () {
+                if (field.value.trim()) {
+                    clearContactFieldError(field);
+                }
+            }
+        );
+    });
+
+});
+
+/* =================================================
+   STEP 11 — FOOTER AUTOMATIC YEAR
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const footerCurrentYear =
+        document.getElementById(
+            "footerCurrentYear"
+        );
+
+    if (footerCurrentYear) {
+        footerCurrentYear.textContent =
+            new Date().getFullYear();
+    }
+
+});
+/* =================================================
+   STEP 11 — FOOTER SMOOTH SCROLL
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const footerInternalLinks =
+        document.querySelectorAll(
+            '.site-footer a[href^="#"]'
+        );
+
+    footerInternalLinks.forEach(function (link) {
+
+        link.addEventListener(
+            "click",
+            function (event) {
+
+                const targetId =
+                    link.getAttribute("href");
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+                    return;
+                }
+
+                const targetSection =
+                    document.querySelector(targetId);
+
+                if (!targetSection) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                targetSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        );
+    });
+
+});
+
+/* =================================================
+   STEP 12 — FLOATING ACTIONS
+   BACK TO TOP + FOOTER POSITION
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const backToTopButton =
+        document.getElementById(
+            "backToTopButton"
+        );
+
+    const floatingActions =
+        document.getElementById(
+            "floatingActions"
+        );
+
+    const footer =
+        document.getElementById(
+            "footer"
+        );
+
+    const donationFloatingButton =
+        document.querySelector(
+            '.floating-donation[href="#donation"]'
+        );
+
+
+    /* =============================================
+       1. BACK TO TOP VISIBILITY
+       ============================================= */
+
+    function updateBackToTopVisibility() {
+
+        if (!backToTopButton) {
+            return;
+        }
+
+        const scrollPosition =
+            window.scrollY ||
+            document.documentElement.scrollTop;
+
+        if (scrollPosition > 500) {
+
+            backToTopButton.classList.add(
+                "is-visible"
+            );
+
+        } else {
+
+            backToTopButton.classList.remove(
+                "is-visible"
+            );
+        }
+    }
+
+
+    /* =============================================
+       2. BACK TO TOP CLICK
+       ============================================= */
+
+    if (backToTopButton) {
+
+        backToTopButton.addEventListener(
+            "click",
+            function () {
+
+                const prefersReducedMotion =
+                    window.matchMedia(
+                        "(prefers-reduced-motion: reduce)"
+                    ).matches;
+
+                window.scrollTo({
+                    top: 0,
+                    behavior:
+                        prefersReducedMotion
+                            ? "auto"
+                            : "smooth"
+                });
+            }
+        );
+    }
+
+
+    /* =============================================
+       3. FLOATING DONATION SMOOTH SCROLL
+       ============================================= */
+
+    if (donationFloatingButton) {
+
+        donationFloatingButton.addEventListener(
+            "click",
+            function (event) {
+
+                const donationSection =
+                    document.getElementById(
+                        "donation"
+                    );
+
+                if (!donationSection) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const prefersReducedMotion =
+                    window.matchMedia(
+                        "(prefers-reduced-motion: reduce)"
+                    ).matches;
+
+                donationSection.scrollIntoView({
+                    behavior:
+                        prefersReducedMotion
+                            ? "auto"
+                            : "smooth",
+                    block: "start"
+                });
+            }
+        );
+    }
+
+
+    /* =============================================
+       4. FOOTER DISTANCE CHECK
+       ============================================= */
+
+    function updateFloatingPositionNearFooter() {
+
+        if (!footer) {
+            return;
+        }
+
+        const footerRect =
+            footer.getBoundingClientRect();
+
+        const viewportHeight =
+            window.innerHeight;
+
+        const footerIsNear =
+            footerRect.top <
+            viewportHeight - 70;
+
+        if (floatingActions) {
+
+            floatingActions.classList.toggle(
+                "is-near-footer",
+                footerIsNear
+            );
+        }
+
+        if (backToTopButton) {
+
+            backToTopButton.classList.toggle(
+                "is-near-footer",
+                footerIsNear
+            );
+        }
+    }
+
+
+    /* =============================================
+       5. OPTIMIZED SCROLL HANDLER
+       ============================================= */
+
+    let floatingScrollTicking = false;
+
+    function handleFloatingScroll() {
+
+        if (floatingScrollTicking) {
+            return;
+        }
+
+        floatingScrollTicking = true;
+
+        window.requestAnimationFrame(
+            function () {
+
+                updateBackToTopVisibility();
+
+                updateFloatingPositionNearFooter();
+
+                floatingScrollTicking = false;
+            }
+        );
+    }
+
+
+    /* =============================================
+       6. SCROLL EVENT
+       ============================================= */
+
+    window.addEventListener(
+        "scroll",
+        handleFloatingScroll,
+        {
+            passive: true
+        }
+    );
+
+
+    /* =============================================
+       7. RESIZE EVENT
+       ============================================= */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            updateFloatingPositionNearFooter();
+        }
+    );
+
+
+    /* =============================================
+       8. INITIAL STATE
+       ============================================= */
+
+    updateBackToTopVisibility();
+
+    updateFloatingPositionNearFooter();
+
+});
