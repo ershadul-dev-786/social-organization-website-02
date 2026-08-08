@@ -11268,3 +11268,1985 @@ body.gallery-lightbox-open {
         animation: none !important;
     }
 }
+
+/* =================================================
+   STEP 9 — EXECUTIVE COMMITTEE SECTION
+   ================================================= */
+
+.executive-committee-section {
+    position: relative;
+    padding: 110px 24px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(23, 107, 87, 0.1),
+            transparent 34%
+        ),
+        linear-gradient(
+            180deg,
+            #f8fcfa 0%,
+            #ffffff 100%
+        );
+}
+
+.executive-committee-section::before {
+    content: "";
+    position: absolute;
+    right: -190px;
+    bottom: -190px;
+    width: 430px;
+    height: 430px;
+    border-radius: 50%;
+    background: rgba(23, 107, 87, 0.06);
+    pointer-events: none;
+}
+
+.executive-committee-container {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+/* =================================================
+   EXECUTIVE COMMITTEE HEADING
+   ================================================= */
+
+.executive-committee-heading {
+    width: min(780px, 100%);
+    margin: 0 auto 58px;
+    text-align: center;
+}
+
+.executive-committee-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    border: 1px solid rgba(23, 107, 87, 0.16);
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.08);
+    color: #176b57;
+    font-size: 0.84rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.executive-committee-heading h2 {
+    margin: 0 0 18px;
+    color: #153f36;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.18;
+}
+
+.executive-committee-heading p {
+    margin: 0;
+    color: #647a74;
+    font-size: 1rem;
+    line-height: 1.9;
+}
+
+/* =================================================
+   MAIN LEADERSHIP GRID
+   ================================================= */
+
+.committee-leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px;
+    margin-bottom: 28px;
+}
+/* =================================================
+   COMMITTEE MEMBER CARD
+   ================================================= */
+
+.committee-member-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 18px 48px rgba(20, 65, 55, 0.09);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.committee-member-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(23, 107, 87, 0.28);
+    box-shadow: 0 28px 64px rgba(20, 65, 55, 0.14);
+}
+
+.committee-member-featured {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.88fr) minmax(0, 1.12fr);
+    min-height: 410px;
+}
+/* =================================================
+   COMMITTEE MEMBER IMAGE
+   ================================================= */
+
+.committee-member-image {
+    position: relative;
+    min-height: 320px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 107, 87, 0.13),
+            rgba(13, 73, 60, 0.2)
+        );
+}
+
+.committee-member-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    transition:
+        transform 0.55s ease,
+        filter 0.55s ease;
+}
+
+.committee-member-card:hover
+.committee-member-image img {
+    transform: scale(1.045);
+    filter: saturate(1.04);
+}
+
+.committee-member-rank {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 2;
+    display: inline-flex;
+    padding: 7px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(8, 45, 36, 0.78);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    backdrop-filter: blur(8px);
+}
+/* =================================================
+   COMMITTEE MEMBER CONTENT
+   ================================================= */
+
+.committee-member-content {
+    padding: 28px;
+}
+
+.committee-member-featured
+.committee-member-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 34px;
+}
+
+.committee-member-position {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 10px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.09);
+    color: #176b57;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.committee-member-content h3 {
+    margin: 0 0 5px;
+    color: #173f36;
+    font-size: 1.35rem;
+    line-height: 1.45;
+}
+
+.committee-member-position-english {
+    margin: 0 0 14px;
+    color: #8b9994;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.committee-member-description {
+    margin: 0;
+    color: #687c77;
+    font-size: 0.88rem;
+    line-height: 1.8;
+}
+/* =================================================
+   COMMITTEE CONTACT LINKS
+   ================================================= */
+
+.committee-member-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 22px;
+}
+
+.committee-member-contact a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 13px;
+    border: 1px solid rgba(23, 107, 87, 0.18);
+    border-radius: 11px;
+    background: #f7fbf9;
+    color: #176b57;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.committee-member-contact a:hover {
+    border-color: #176b57;
+    background: #176b57;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+/* =================================================
+   OTHER OFFICE BEARERS GRID
+   ================================================= */
+
+.committee-members-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.committee-members-grid
+.committee-member-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.committee-members-grid
+.committee-member-image {
+    min-height: 300px;
+}
+
+.committee-members-grid
+.committee-member-content {
+    flex: 1;
+}
+/* =================================================
+   GENERAL MEMBERS HEADING
+   ================================================= */
+
+.committee-general-members-heading {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: end;
+    gap: 50px;
+    margin: 72px 0 30px;
+}
+
+.committee-general-members-heading div > span {
+    color: #176b57;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.committee-general-members-heading h3 {
+    margin: 6px 0 0;
+    color: #173f36;
+    font-size: clamp(1.45rem, 3vw, 2.2rem);
+    line-height: 1.45;
+}
+
+.committee-general-members-heading > p {
+    margin: 0;
+    color: #687c77;
+    line-height: 1.8;
+}
+
+/* =================================================
+   GENERAL MEMBERS GRID
+   ================================================= */
+
+.committee-general-members-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.committee-small-member-card {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 18px;
+    border: 1px solid rgba(23, 107, 87, 0.11);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 12px 32px rgba(20, 65, 55, 0.065);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.committee-small-member-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(23, 107, 87, 0.28);
+    box-shadow: 0 18px 40px rgba(20, 65, 55, 0.11);
+}
+
+.committee-small-member-card img {
+    flex: 0 0 auto;
+    width: 82px;
+    height: 82px;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid rgba(23, 107, 87, 0.1);
+    border-radius: 50%;
+}
+
+.committee-small-member-card div > span {
+    color: #176b57;
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.committee-small-member-card h4 {
+    margin: 4px 0 3px;
+    color: #173f36;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.committee-small-member-card p {
+    margin: 0;
+    color: #8a9994;
+    font-size: 0.72rem;
+}
+/* =================================================
+   COMMITTEE INFORMATION NOTE
+   ================================================= */
+
+.committee-information-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-top: 26px;
+    padding: 17px 20px;
+    border: 1px solid rgba(183, 122, 24, 0.18);
+    border-radius: 13px;
+    background: #fffaf0;
+}
+
+.committee-information-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #b77a18;
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.committee-information-note p {
+    margin: 2px 0 0;
+    color: #6d5832;
+    font-size: 0.8rem;
+    line-height: 1.72;
+}
+
+/* =================================================
+   COMMITTEE IMAGE FALLBACK
+   ================================================= */
+
+.committee-member-image.has-image-error,
+.committee-small-member-card.has-image-error {
+    background:
+        linear-gradient(
+            145deg,
+            #176b57,
+            #0d493c
+        );
+}
+
+.committee-member-image.has-image-error::after {
+    content: "ছবি শিগগিরই যুক্ত হবে";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.committee-member-image.has-image-error img,
+.committee-small-member-card.has-image-error img {
+    opacity: 0;
+}
+/* =================================================
+   COMMITTEE TABLET RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 1080px) {
+
+    .committee-members-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .committee-general-members-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .committee-small-member-card:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    .executive-committee-section {
+        padding: 90px 22px;
+    }
+
+    .committee-leadership-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .committee-member-featured {
+        grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+    }
+
+    .committee-general-members-heading {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+/* =================================================
+   COMMITTEE MOBILE RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 736px) {
+
+    .executive-committee-section {
+        padding: 72px 16px;
+    }
+
+    .executive-committee-heading {
+        margin-bottom: 38px;
+    }
+
+    .executive-committee-heading h2 {
+        font-size: 2rem;
+    }
+
+    .committee-member-featured {
+        grid-template-columns: 1fr;
+    }
+
+    .committee-member-featured
+    .committee-member-image {
+        min-height: 390px;
+    }
+
+    .committee-member-featured
+    .committee-member-content {
+        padding: 24px 20px;
+    }
+
+    .committee-members-grid,
+    .committee-general-members-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .committee-small-member-card:last-child {
+        grid-column: auto;
+    }
+
+    .committee-members-grid
+    .committee-member-image {
+        min-height: 360px;
+    }
+}
+
+/* =================================================
+   COMMITTEE SMALL MOBILE
+   ================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .executive-committee-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .committee-member-content {
+        padding: 22px 18px;
+    }
+
+    .committee-member-featured
+    .committee-member-image,
+    .committee-members-grid
+    .committee-member-image {
+        min-height: 330px;
+    }
+
+    .committee-small-member-card {
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .committee-small-member-card img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .committee-member-contact {
+        flex-direction: column;
+    }
+
+    .committee-member-contact a {
+        width: 100%;
+    }
+}
+
+/* =================================================
+   COMMITTEE REDUCED MOTION
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .committee-member-card,
+    .committee-member-image img,
+    .committee-member-contact a,
+    .committee-small-member-card {
+        transition: none !important;
+    }
+
+    .committee-member-card:hover,
+    .committee-small-member-card:hover,
+    .committee-member-contact a:hover {
+        transform: none;
+    }
+}
+
+/* =================================================
+   STEP 10 — CONTACT SECTION
+   ================================================= */
+
+.contact-section {
+    position: relative;
+    padding: 110px 24px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(23, 107, 87, 0.1),
+            transparent 34%
+        ),
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f4faf7 100%
+        );
+}
+
+.contact-section::before {
+    content: "";
+    position: absolute;
+    left: -190px;
+    bottom: -190px;
+    width: 430px;
+    height: 430px;
+    border-radius: 50%;
+    background: rgba(23, 107, 87, 0.06);
+    pointer-events: none;
+}
+
+.contact-container {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+/* =================================================
+   CONTACT HEADING
+   ================================================= */
+
+.contact-heading {
+    width: min(760px, 100%);
+    margin: 0 auto 56px;
+    text-align: center;
+}
+
+.contact-heading > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    border: 1px solid rgba(23, 107, 87, 0.16);
+    border-radius: 999px;
+    background: rgba(23, 107, 87, 0.08);
+    color: #176b57;
+    font-size: 0.84rem;
+    font-weight: 800;
+}
+
+.contact-heading h2 {
+    margin: 0 0 18px;
+    color: #153f36;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.2;
+}
+
+.contact-heading p {
+    margin: 0;
+    color: #647a74;
+    font-size: 1rem;
+    line-height: 1.9;
+}
+/* =================================================
+   CONTACT MAIN LAYOUT
+   ================================================= */
+
+.contact-layout {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 0.85fr)
+        minmax(0, 1.15fr);
+    gap: 30px;
+    align-items: start;
+}
+
+.contact-information,
+.contact-form-wrapper {
+    min-width: 0;
+}
+/* =================================================
+   CONTACT INFORMATION CARD
+   ================================================= */
+
+.contact-card {
+    padding: 30px;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 26px;
+    background:
+        linear-gradient(
+            145deg,
+            #176b57,
+            #0d493c
+        );
+    color: #ffffff;
+    box-shadow: 0 24px 58px rgba(15, 72, 59, 0.2);
+}
+
+.contact-card h3 {
+    margin: 0 0 24px;
+    color: #ffffff;
+    font-size: 1.45rem;
+    line-height: 1.5;
+}
+
+.contact-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contact-card li {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.88rem;
+    line-height: 1.75;
+}
+
+.contact-card li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.contact-card strong {
+    color: #ffffff;
+    font-size: 0.8rem;
+}
+
+.contact-card a {
+    color: #d7f5e7;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.contact-card a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* =================================================
+   OFFICE TIME CARD
+   ================================================= */
+
+.office-time-card {
+    margin-top: 18px;
+    padding: 24px;
+    border: 1px solid rgba(192, 146, 45, 0.2);
+    border-radius: 20px;
+    background: #fffaf0;
+}
+
+.office-time-card h3 {
+    margin: 0 0 12px;
+    color: #6b4b0e;
+    font-size: 1.1rem;
+}
+
+.office-time-card p {
+    margin: 5px 0 0;
+    color: #7b6741;
+    font-size: 0.86rem;
+    line-height: 1.7;
+}
+/* =================================================
+   CONTACT FORM WRAPPER
+   ================================================= */
+
+.contact-form-wrapper {
+    padding: 32px;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 28px 72px rgba(20, 65, 55, 0.13);
+}
+/* =================================================
+   CONTACT FORM
+   ================================================= */
+
+.contact-form {
+    display: grid;
+    gap: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 13px 15px;
+    border: 1px solid rgba(23, 107, 87, 0.16);
+    border-radius: 14px;
+    background: #ffffff;
+    color: #25483f;
+    font-family: inherit;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    outline: none;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #a2ada9;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #176b57;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(23, 107, 87, 0.1);
+}
+/* =================================================
+   CONTACT SUBMIT BUTTON
+   ================================================= */
+
+.contact-submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 12px 22px;
+    border: 1px solid #176b57;
+    border-radius: 14px;
+    background: #176b57;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 13px 30px rgba(23, 107, 87, 0.22);
+    transition:
+        background-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+.contact-submit-button:hover {
+    background: #105545;
+    transform: translateY(-2px);
+    box-shadow: 0 17px 36px rgba(23, 107, 87, 0.27);
+}
+
+.contact-submit-button:focus-visible {
+    outline: 3px solid rgba(23, 107, 87, 0.23);
+    outline-offset: 3px;
+}
+/* =================================================
+   CONTACT GOOGLE MAP
+   ================================================= */
+
+.contact-map {
+    margin-top: 32px;
+    overflow: hidden;
+    border: 1px solid rgba(23, 107, 87, 0.12);
+    border-radius: 24px;
+    background: #eaf3ef;
+    box-shadow: 0 18px 48px rgba(20, 65, 55, 0.09);
+}
+
+.contact-map iframe {
+    display: block;
+    width: 100%;
+    height: 460px;
+    border: 0;
+}
+/* =================================================
+   CONTACT FORM MESSAGE
+   ================================================= */
+
+.contact-form-message {
+    display: none;
+    padding: 14px 17px;
+    border-radius: 13px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+.contact-form-message.is-visible {
+    display: block;
+}
+
+.contact-form-message.is-success {
+    border: 1px solid rgba(23, 107, 87, 0.22);
+    background: rgba(23, 107, 87, 0.09);
+    color: #176b57;
+}
+
+.contact-form-message.is-error {
+    border: 1px solid rgba(194, 61, 61, 0.2);
+    background: rgba(194, 61, 61, 0.07);
+    color: #a92f2f;
+}
+
+.contact-form input.has-error,
+.contact-form textarea.has-error {
+    border-color: #c23d3d;
+    background: #fffafa;
+    box-shadow: 0 0 0 4px rgba(194, 61, 61, 0.08);
+}
+/* =================================================
+   CONTACT TABLET RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 900px) {
+
+    .contact-section {
+        padding: 90px 22px;
+    }
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+}
+/* =================================================
+   CONTACT MOBILE RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 736px) {
+
+    .contact-section {
+        padding: 72px 16px;
+    }
+
+    .contact-heading {
+        margin-bottom: 38px;
+    }
+
+    .contact-heading h2 {
+        font-size: 2rem;
+    }
+
+    .contact-card,
+    .contact-form-wrapper {
+        padding: 24px 20px;
+        border-radius: 21px;
+    }
+
+    .contact-map iframe {
+        height: 380px;
+    }
+}
+/* =================================================
+   CONTACT SMALL MOBILE
+   ================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .contact-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .contact-card,
+    .contact-form-wrapper {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .contact-map iframe {
+        height: 330px;
+    }
+}
+/* =================================================
+   CONTACT REDUCED MOTION
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-submit-button {
+        transition: none !important;
+    }
+
+    .contact-submit-button:hover {
+        transform: none;
+    }
+}
+
+/* =================================================
+   CONTACT SUBMIT LOADER
+   ================================================= */
+
+.contact-submit-loader {
+    display: none;
+    width: 18px;
+    height: 18px;
+
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+
+    animation: contact-loader-spin 0.8s linear infinite;
+}
+
+.contact-submit-button.is-loading {
+    cursor: wait;
+    opacity: 0.86;
+}
+
+.contact-submit-button.is-loading
+.contact-submit-loader {
+    display: inline-block;
+}
+
+.contact-submit-button:disabled {
+    cursor: not-allowed;
+}
+
+@keyframes contact-loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =================================================
+   STEP 11 — WEBSITE FOOTER
+   ================================================= */
+
+.site-footer {
+    position: relative;
+    overflow: hidden;
+    padding: 85px 24px 0;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 255, 255, 0.06),
+            transparent 28%
+        ),
+        linear-gradient(
+            145deg,
+            #123f35 0%,
+            #0c3028 55%,
+            #08251f 100%
+        );
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    top: -180px;
+    left: -180px;
+    width: 400px;
+    height: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.site-footer-container {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+/* =================================================
+   FOOTER MAIN GRID
+   ================================================= */
+
+.site-footer-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(150px, 0.75fr)
+        minmax(150px, 0.85fr)
+        minmax(200px, 1fr);
+    gap: 42px;
+    align-items: start;
+    padding-bottom: 55px;
+}
+
+.site-footer h2 {
+    margin: 0 0 20px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.5;
+}
+/* =================================================
+   FOOTER BRAND
+   ================================================= */
+
+.footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-brand:hover {
+    color: #ffffff;
+}
+
+.footer-brand-mark {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.09);
+    color: #ffffff;
+    font-size: 1.45rem;
+    font-weight: 900;
+}
+
+.footer-brand-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand-content strong {
+    color: #ffffff;
+    font-size: 1.08rem;
+    line-height: 1.5;
+}
+
+.footer-brand-content small {
+    margin-top: 2px;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.72rem;
+}
+/* =================================================
+   FOOTER DESCRIPTION
+   ================================================= */
+
+.footer-organization-description {
+    max-width: 390px;
+    margin: 22px 0 0;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.84rem;
+    line-height: 1.9;
+}
+
+.footer-slogan {
+    position: relative;
+    margin: 20px 0 0;
+    padding: 14px 17px;
+    border: 0;
+    border-left: 3px solid rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.055);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.78rem;
+    font-style: normal;
+    line-height: 1.7;
+}
+/* =================================================
+   FOOTER SOCIAL LINKS
+   ================================================= */
+
+.footer-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 21px;
+}
+
+.footer-social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.065);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.footer-social-links a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+}
+/* =================================================
+   FOOTER QUICK LINKS
+   ================================================= */
+
+.footer-link-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-link-list li {
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.footer-link-list a {
+    position: relative;
+    display: inline-block;
+    padding: 3px 0;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    text-decoration: none;
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.footer-link-list a::before {
+    content: "›";
+    display: inline-block;
+    margin-right: 7px;
+    color: rgba(255, 255, 255, 0.38);
+    transition: transform 0.25s ease;
+}
+
+.footer-link-list a:hover {
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.footer-link-list a:hover::before {
+    transform: translateX(2px);
+}
+/* =================================================
+   FOOTER CONTACT INFORMATION
+   ================================================= */
+
+.footer-contact-list {
+    display: grid;
+    gap: 15px;
+    margin: 0;
+    font-style: normal;
+}
+
+.footer-contact-item {
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.footer-contact-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.footer-contact-item span {
+    display: block;
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.43);
+    font-size: 0.66rem;
+    font-weight: 800;
+}
+
+.footer-contact-item strong,
+.footer-contact-item a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.7;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.footer-contact-item a:hover {
+    color: #ffffff;
+}
+/* =================================================
+   FOOTER CALL TO ACTION
+   ================================================= */
+
+.footer-action-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 42px;
+    padding: 30px 34px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.065);
+    backdrop-filter: blur(10px);
+}
+
+.footer-action-panel > div:first-child {
+    max-width: 650px;
+}
+
+.footer-action-panel span {
+    display: block;
+    margin-bottom: 7px;
+    color: rgba(255, 255, 255, 0.54);
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.footer-action-panel h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+    line-height: 1.55;
+}
+
+.footer-action-buttons {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+/* =================================================
+   FOOTER CTA BUTTONS
+   ================================================= */
+
+.footer-volunteer-button,
+.footer-donation-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.footer-volunteer-button {
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    color: #123f35;
+}
+
+.footer-volunteer-button:hover {
+    background: #eef7f3;
+    color: #0c3028;
+    transform: translateY(-2px);
+}
+
+.footer-donation-button {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: transparent;
+    color: #ffffff;
+}
+
+.footer-donation-button:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* =================================================
+   FOOTER BOTTOM
+   ================================================= */
+
+.site-footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer-bottom p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.47);
+    font-size: 0.68rem;
+    line-height: 1.7;
+}
+
+.footer-template-credit {
+    text-align: right;
+}
+
+.footer-template-credit a {
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+}
+
+.footer-template-credit a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+/* =================================================
+   FOOTER TABLET RESPONSIVE
+   ================================================= */
+
+@media screen and (max-width: 1000px) {
+
+    .site-footer-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        gap: 42px 32px;
+    }
+
+    .footer-organization-description {
+        max-width: none;
+    }
+}
+@media screen and (max-width: 736px) {
+
+    .site-footer {
+        padding: 68px 18px 0;
+    }
+
+    .site-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 38px;
+        padding-bottom: 42px;
+    }
+
+    .footer-action-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px 22px;
+    }
+
+    .footer-action-buttons {
+        width: 100%;
+    }
+
+    .footer-volunteer-button,
+    .footer-donation-button {
+        flex: 1 1 150px;
+    }
+
+    .site-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-template-credit {
+        text-align: left;
+    }
+}
+/* =================================================
+   FOOTER SMALL MOBILE
+   ================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .site-footer {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .footer-brand {
+        align-items: flex-start;
+    }
+
+    .footer-brand-mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        font-size: 1.2rem;
+    }
+
+    .footer-brand-content strong {
+        font-size: 0.94rem;
+    }
+
+    .footer-action-panel {
+        padding: 22px 17px;
+    }
+
+    .footer-action-buttons {
+        flex-direction: column;
+    }
+
+    .footer-volunteer-button,
+    .footer-donation-button {
+        width: 100%;
+        flex: none;
+    }
+}
+/* =================================================
+   FOOTER REDUCED MOTION
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .footer-social-links a,
+    .footer-link-list a,
+    .footer-link-list a::before,
+    .footer-volunteer-button,
+    .footer-donation-button {
+        transition: none !important;
+    }
+
+    .footer-social-links a:hover,
+    .footer-link-list a:hover,
+    .footer-volunteer-button:hover,
+    .footer-donation-button:hover {
+        transform: none;
+    }
+}
+/* =================================================
+   STEP 12 — FLOATING ACTION BUTTONS
+   ================================================= */
+
+.floating-actions {
+    position: fixed;
+    right: 22px;
+    bottom: 92px;
+    z-index: 9990;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+
+    pointer-events: none;
+}
+/* =================================================
+   FLOATING BUTTON BASE
+   ================================================= */
+
+.floating-action-button {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+
+    min-width: 52px;
+    height: 52px;
+    padding: 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    box-shadow:
+        0 12px 32px rgba(10, 45, 37, 0.2);
+
+    pointer-events: auto;
+
+    transition:
+        width 0.3s ease,
+        min-width 0.3s ease,
+        padding 0.3s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.floating-action-button:hover {
+    min-width: 145px;
+    padding-left: 17px;
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 38px rgba(10, 45, 37, 0.28);
+}
+
+.floating-action-button:focus-visible {
+    outline: 3px solid rgba(23, 107, 87, 0.28);
+    outline-offset: 4px;
+}
+/* =================================================
+   FLOATING ACTION ICON
+   ================================================= */
+
+.floating-action-icon {
+    flex: 0 0 50px;
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1;
+}
+/* =================================================
+   FLOATING ACTION LABEL
+   ================================================= */
+
+.floating-action-label {
+    max-width: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+
+    transform: translateX(8px);
+
+    transition:
+        max-width 0.3s ease,
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.3s ease;
+}
+
+.floating-action-button:hover
+.floating-action-label,
+.floating-action-button:focus-visible
+.floating-action-label {
+    max-width: 100px;
+
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateX(0);
+}
+/* =================================================
+   WHATSAPP FLOATING BUTTON
+   ================================================= */
+
+.floating-whatsapp {
+    background:
+        linear-gradient(
+            145deg,
+            #25d366,
+            #159447
+        );
+}
+
+.floating-whatsapp:hover {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #20c65d,
+            #117d3c
+        );
+}
+/* =================================================
+   CALL FLOATING BUTTON
+   ================================================= */
+
+.floating-call {
+    background:
+        linear-gradient(
+            145deg,
+            #176b57,
+            #0d493c
+        );
+}
+
+.floating-call:hover {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #145e4d,
+            #093d31
+        );
+}
+/* =================================================
+   DONATION FLOATING BUTTON
+   ================================================= */
+
+.floating-donation {
+    background:
+        linear-gradient(
+            145deg,
+            #d79523,
+            #ad6d0d
+        );
+}
+
+.floating-donation:hover {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #c5861c,
+            #935b09
+        );
+}
+/* =================================================
+   BACK TO TOP BUTTON
+   ================================================= */
+
+.back-to-top-button {
+    position: fixed;
+    right: 22px;
+    bottom: 24px;
+    z-index: 9991;
+
+    width: 52px;
+    height: 52px;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #173f36,
+            #0c2d26
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 1.25rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 32px rgba(10, 45, 37, 0.22);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+        translateY(16px)
+        scale(0.9);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease,
+        background-color 0.25s ease;
+}
+/* Back to top visible state */
+
+.back-to-top-button.is-visible {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+.back-to-top-button:hover {
+    background: #176b57;
+
+    transform:
+        translateY(-3px)
+        scale(1.03);
+}
+
+.back-to-top-button:focus-visible {
+    outline: 3px solid rgba(23, 107, 87, 0.28);
+    outline-offset: 4px;
+}
+/* =================================================
+   FLOATING BUTTON ENTRANCE
+   ================================================= */
+
+.floating-action-button {
+    opacity: 0;
+
+    transform:
+        translateX(20px)
+        scale(0.92);
+
+    animation:
+        floatingActionEntrance
+        0.55s ease forwards;
+}
+
+.floating-action-button:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.floating-action-button:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.floating-action-button:nth-child(3) {
+    animation-delay: 0.35s;
+}
+
+@keyframes floatingActionEntrance {
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+.floating-action-button:hover {
+    transform:
+        translateX(0)
+        translateY(-2px)
+        scale(1);
+}
+/* =================================================
+   FLOATING ACTIONS NEAR FOOTER
+   ================================================= */
+
+.floating-actions.is-near-footer {
+    bottom: 115px;
+}
+
+.back-to-top-button.is-near-footer {
+    bottom: 46px;
+}
+/* =================================================
+   FLOATING ACTIONS TABLET
+   ================================================= */
+
+@media screen and (max-width: 900px) {
+
+    .floating-actions {
+        right: 16px;
+        bottom: 84px;
+    }
+
+    .back-to-top-button {
+        right: 16px;
+        bottom: 18px;
+    }
+
+    .floating-action-button,
+    .back-to-top-button {
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+    }
+
+    .floating-action-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+    }
+}
+/* =================================================
+   FLOATING ACTIONS MOBILE
+   ================================================= */
+
+@media screen and (max-width: 736px) {
+
+    .floating-actions {
+        right: 12px;
+        bottom: 76px;
+        gap: 8px;
+    }
+
+    .floating-action-button {
+        width: 46px;
+        min-width: 46px;
+        height: 46px;
+        padding: 0;
+    }
+
+    .floating-action-button:hover {
+        width: 46px;
+        min-width: 46px;
+        padding: 0;
+
+        transform: translateY(-2px);
+    }
+
+    .floating-action-icon {
+        width: 44px;
+        height: 44px;
+        flex-basis: 44px;
+
+        font-size: 0.95rem;
+    }
+
+    .floating-action-label {
+        display: none;
+    }
+
+    .back-to-top-button {
+        right: 12px;
+        bottom: 18px;
+
+        width: 46px;
+        height: 46px;
+
+        font-size: 1.1rem;
+    }
+
+    .floating-actions.is-near-footer {
+        bottom: 82px;
+    }
+
+    .back-to-top-button.is-near-footer {
+        bottom: 24px;
+    }
+}
+/* =================================================
+   FLOATING ACTIONS SMALL MOBILE
+   ================================================= */
+
+@media screen and (max-width: 420px) {
+
+    .floating-actions {
+        right: 9px;
+    }
+
+    .back-to-top-button {
+        right: 9px;
+    }
+
+    .floating-action-button {
+        width: 43px;
+        min-width: 43px;
+        height: 43px;
+    }
+
+    .floating-action-icon {
+        width: 41px;
+        height: 41px;
+        flex-basis: 41px;
+
+        font-size: 0.88rem;
+    }
+
+    .back-to-top-button {
+        width: 43px;
+        height: 43px;
+    }
+}
+/* =================================================
+   FLOATING ACTION REDUCED MOTION
+   ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .floating-action-button {
+        opacity: 1;
+        transform: none;
+        animation: none !important;
+    }
+
+    .floating-action-button,
+    .floating-action-label,
+    .back-to-top-button,
+    .floating-actions {
+        transition: none !important;
+    }
+
+    .floating-action-button:hover,
+    .back-to-top-button:hover {
+        transform: none;
+    }
+}
